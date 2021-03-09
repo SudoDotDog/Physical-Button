@@ -27,7 +27,7 @@ flutter:
   plugin:
     platforms:
       android:
-        package: com.example.physical_button
+        package: dog.sudo.physical_button
         pluginClass: PhysicalButtonPlugin
       ios:
         pluginClass: PhysicalButtonPlugin

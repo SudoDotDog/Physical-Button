@@ -1,4 +1,4 @@
-package com.example.physical_button;
+package dog.sudo.physical_button;
 
 import androidx.annotation.NonNull;
 

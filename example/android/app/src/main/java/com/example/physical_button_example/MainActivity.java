@@ -1,4 +1,4 @@
-package com.example.physical_button_example;
+package dog.sudo.physical_button_example;
 
 import io.flutter.embedding.android.FlutterActivity;
 
