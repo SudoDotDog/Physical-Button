@@ -1,14 +1,24 @@
-
 import 'dart:async';
 
 import 'package:flutter/services.dart';
 
-class PhysicalButton {
-  static const MethodChannel _channel =
-      const MethodChannel('physical_button');
+const EventChannel _volumeEventChannel =
+    EventChannel('sudo.dog/physical_button/volume');
 
-  static Future<String> get platformVersion async {
-    final String version = await _channel.invokeMethod('getPlatformVersion');
-    return version;
+Stream<String>? _volumeEvents;
+
+String _listenToVolumeEvent(List<double> list) {
+  return list.join(',');
+}
+
+Stream<String> get volumeEvents {
+  Stream<String>? volumeEvents = _volumeEvents;
+  if (volumeEvents == null) {
+    volumeEvents = _volumeEventChannel.receiveBroadcastStream().map(
+          (dynamic event) => _listenToVolumeEvent(event.cast<double>()),
+        );
+    _volumeEvents = volumeEvents;
   }
+
+  return volumeEvents;
 }
