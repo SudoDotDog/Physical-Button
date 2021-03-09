@@ -2,36 +2,41 @@ package dog.sudo.physical_button;
 
 import androidx.annotation.NonNull;
 
+import android.content.Context;
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
-import io.flutter.plugin.common.MethodCall;
-import io.flutter.plugin.common.MethodChannel;
-import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
-import io.flutter.plugin.common.MethodChannel.Result;
-import io.flutter.plugin.common.PluginRegistry.Registrar;
+import io.flutter.plugin.common.BinaryMessenger;
+import io.flutter.plugin.common.EventChannel;
 
-public class PhysicalButtonPlugin implements FlutterPlugin, MethodCallHandler {
-  private static final String ACCELEROMETER_CHANNEL_NAME =
-      "plugins.flutter.io/sensors/accelerometer";
+public class PhysicalButtonPlugin implements FlutterPlugin {
+  private static final String VOLUME_CHANNEL_NAME =
+      "sudo.dog/physical_button/volume";
   
-  private MethodChannel channel;
+  private EventChannel volumeChannel;
 
-  @Override
-  public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
-    channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), "physical_button");
-    channel.setMethodCallHandler(this);
+  @SuppressWarnings("deprecation")
+  public static void registerWith(io.flutter.plugin.common.PluginRegistry.Registrar registrar) {
+    PhysicalButtonPlugin plugin = new PhysicalButtonPlugin();
+    plugin.setupEventChannels(registrar.context(), registrar.messenger());
   }
 
   @Override
-  public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
-    if (call.method.equals("getPlatformVersion")) {
-      result.success("Android " + android.os.Build.VERSION.RELEASE);
-    } else {
-      result.notImplemented();
-    }
+  public void onAttachedToEngine(@NonNull FlutterPluginBinding binding) {
+    final Context context = binding.getApplicationContext();
+    setupEventChannels(context, binding.getBinaryMessenger());
   }
 
   @Override
   public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
-    channel.setMethodCallHandler(null);
+    teardownEventChannels();
+  }
+  
+  private void setupEventChannels(Context context, BinaryMessenger messenger) {
+    volumeChannel = new EventChannel(messenger, VOLUME_CHANNEL_NAME);
+    final StreamHandlerImplement volumeStreamHandler = new StreamHandlerImplement();
+    volumeChannel.setStreamHandler(volumeStreamHandler);
+  }
+  
+  private void teardownEventChannels() {
+    volumeChannel.setStreamHandler(null);
   }
 }
