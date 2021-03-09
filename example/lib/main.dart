@@ -1,7 +1,6 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
 
-import 'package:flutter/services.dart';
+import 'package:flutter/material.dart';
 import 'package:physical_button/physical_button.dart';
 
 void main() {
@@ -45,7 +44,7 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Plugin example app'),
         ),
         body: Center(
-          child: Text(this._volumeValues),
+          child: Text(this._volumeValues != null ? this._volumeValues : "null"),
         ),
       ),
     );
