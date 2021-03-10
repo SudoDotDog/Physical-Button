@@ -11,8 +11,6 @@ import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding;
 
 public class PhysicalButtonPlugin implements FlutterPlugin, ActivityAware {
-  private static final String VOLUME_CHANNEL_NAME =
-      "sudo.dog/physical_button/volume";
   
   private Context context;
   private Activity activity;
