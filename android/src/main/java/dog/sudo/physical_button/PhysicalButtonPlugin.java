@@ -39,6 +39,8 @@ public class PhysicalButtonPlugin implements FlutterPlugin, ActivityAware {
   @Override
   public void onReattachedToActivityForConfigChanges(@NonNull ActivityPluginBinding binding) {
     this.activity = binding.getActivity();
+    Intent intent = new Intent(this.activity, PhysicalButtonActivity.class);
+    this.activity.startActivity(intent);
   }
 
   @Override

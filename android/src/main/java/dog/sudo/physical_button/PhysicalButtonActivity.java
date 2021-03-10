@@ -17,6 +17,7 @@ public class PhysicalButtonActivity extends FlutterActivity {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
+        System.out.println("Hello World");
         super.onCreate(savedInstanceState, persistentState);
         BinaryMessenger binaryMessenger = this.getFlutterEngine().getDartExecutor().getBinaryMessenger();
         this.methodChannel = new MethodChannel(binaryMessenger, VOLUME_CHANNEL_NAME);
