@@ -15,25 +15,10 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   String _volumeValues;
 
-  List<StreamSubscription<dynamic>> _streamSubscriptions =
-      <StreamSubscription<dynamic>>[];
-
   @override
   void initState() {
     super.initState();
-    _streamSubscriptions.add(volumeEvents.listen((String event) {
-      setState(() {
-        _volumeValues = event;
-      });
-    }));
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    for (StreamSubscription<dynamic> subscription in _streamSubscriptions) {
-      subscription.cancel();
-    }
+    startPhysicalListen();
   }
 
   @override
