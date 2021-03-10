@@ -4,11 +4,11 @@ import androidx.annotation.NonNull;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+
 import io.flutter.embedding.engine.plugins.activity.ActivityAware;
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding;
-import io.flutter.plugin.common.BinaryMessenger;
-import io.flutter.plugin.common.EventChannel;
 
 public class PhysicalButtonPlugin implements FlutterPlugin, ActivityAware {
   private static final String VOLUME_CHANNEL_NAME =
@@ -29,6 +29,8 @@ public class PhysicalButtonPlugin implements FlutterPlugin, ActivityAware {
   @Override
   public void onAttachedToActivity(@NonNull ActivityPluginBinding binding) {
     this.activity = binding.getActivity();
+    Intent intent = new Intent(this.activity, PhysicalButtonActivity.class);
+    this.activity.startActivity(intent);
   }
 
   @Override
