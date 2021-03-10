@@ -2,41 +2,47 @@ package dog.sudo.physical_button;
 
 import androidx.annotation.NonNull;
 
+import android.app.Activity;
 import android.content.Context;
+import io.flutter.embedding.engine.plugins.activity.ActivityAware;
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
+import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding;
 import io.flutter.plugin.common.BinaryMessenger;
 import io.flutter.plugin.common.EventChannel;
 
-public class PhysicalButtonPlugin implements FlutterPlugin {
+public class PhysicalButtonPlugin implements FlutterPlugin, ActivityAware {
   private static final String VOLUME_CHANNEL_NAME =
       "sudo.dog/physical_button/volume";
   
-  private EventChannel volumeChannel;
-
-  @SuppressWarnings("deprecation")
-  public static void registerWith(io.flutter.plugin.common.PluginRegistry.Registrar registrar) {
-    PhysicalButtonPlugin plugin = new PhysicalButtonPlugin();
-    plugin.setupEventChannels(registrar.context(), registrar.messenger());
-  }
+  private Context context;
+  private Activity activity;
 
   @Override
   public void onAttachedToEngine(@NonNull FlutterPluginBinding binding) {
-    final Context context = binding.getApplicationContext();
-    setupEventChannels(context, binding.getBinaryMessenger());
+    this.context = binding.getApplicationContext();
   }
 
   @Override
   public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
-    teardownEventChannels();
   }
-  
-  private void setupEventChannels(Context context, BinaryMessenger messenger) {
-    volumeChannel = new EventChannel(messenger, VOLUME_CHANNEL_NAME);
-    final StreamHandlerImplement volumeStreamHandler = new StreamHandlerImplement();
-    volumeChannel.setStreamHandler(volumeStreamHandler);
+
+  @Override
+  public void onAttachedToActivity(@NonNull ActivityPluginBinding binding) {
+    this.activity = binding.getActivity();
   }
-  
-  private void teardownEventChannels() {
-    volumeChannel.setStreamHandler(null);
+
+  @Override
+  public void onDetachedFromActivityForConfigChanges() {
+
+  }
+
+  @Override
+  public void onReattachedToActivityForConfigChanges(@NonNull ActivityPluginBinding binding) {
+    this.activity = binding.getActivity();
+  }
+
+  @Override
+  public void onDetachedFromActivity() {
+
   }
 }
